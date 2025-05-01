@@ -29,20 +29,22 @@ fn main() {
         .for_folder("assets")
         .unwrap();
 
-    let font_path = assets.join("FiraSans-Regular.ttf");
-    let mut glyphs = game_window.load_font(font_path).unwrap();// Text extraction & rendering
+    let font_path = assets.join("Karma_Future.otf");
+    let mut glyphs = game_window.load_font(font_path).unwrap(); // Text extraction & rendering
 
     let mut game = Game::new(width, height);
 
     while let Some(event) = game_window.next() {
-        if let Some(Button::Keyboard(key)) = event.press_args() { // keyboard input
+        if let Some(Button::Keyboard(key)) = event.press_args() {
+            // keyboard input
             game.key_pressed(key);
         }
-        game_window.draw_2d(&event, |context, graphics, device| { // Game rendering loop
+        game_window.draw_2d(&event, |context, graphics, device| {
+            // Game rendering loop
             clear(BACK_COLOR, graphics);
             game.draw(&context, graphics, &mut glyphs);
 
-            glyphs.factory.encoder.flush(device);// properly rendered and updated when your score changes.
+            glyphs.factory.encoder.flush(device); // properly rendered and updated when your score changes.
         });
 
         event.update(|arg| {

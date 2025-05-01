@@ -35,6 +35,8 @@ pub struct Game {
     countdown_active: bool,
     countdown_value: i32,
     countdown_timer: f64,
+
+    
 }
 
 impl Game {
@@ -119,7 +121,7 @@ impl Game {
         ); // Vertical Right Line
 
         let score_text = format!("{}", self.score); //Score
-        text::Text::new_color([1.0, 1.0, 1.0, 1.0], 22) //White Text
+        text::Text::new_color([1.0, 1.0, 1.0, 1.0], 20) //White Text
             .draw(
                 &score_text,
                 glyphs,
@@ -132,7 +134,7 @@ impl Game {
         // Draw countdown if active
         if self.countdown_active {
             let countdown_text = format!("{}", self.countdown_value);
-            text::Text::new_color([1.0, 0.3, 0.0, 1.0], 72) // Large orange countdown
+            text::Text::new_color(	[1.0, 0.84, 0.0, 1.0], 50) // Large orange countdown
                 .draw(
                     &countdown_text,
                     glyphs,
@@ -149,7 +151,7 @@ impl Game {
         // Draw paused message
         else if self.paused {
             let pause_text = "PAUSED - Press SPACE";
-            text::Text::new_color([1.0, 1.0, 0.0, 1.0], 32)
+            text::Text::new_color([1.0, 0.98, 0.44, 1.0], 30)
                 .draw(
                     pause_text,
                     glyphs,
@@ -188,8 +190,8 @@ impl Game {
             );
 
             // Display the final score message
-            let final_score_text = format!("Your Score is {}.", self.score);
-            text::Text::new_color([1.0, 1.0, 1.0, 1.0], 40) // White, size 40
+            let final_score_text = format!("Your Score is {}", self.score);
+            text::Text::new_color([1.0, 1.0, 1.0, 1.0], 40) // White
                 .draw(
                     &final_score_text,
                     glyphs,
