@@ -13,7 +13,6 @@ const BORDER_COLOR: Color = [0.00, 0.00, 0.00, 1.0];
 const GAMEOVER_COLOR: Color = [0.6, 0.5, 0.8, 0.7]; // soft purple, 70% opacity
 
 
-const MOVING_PERIOD: f64 = 0.2; //FPS
 const RESTART_TIME: f64 = 1.0; // 1sec restart time
 
 pub struct Game {
@@ -36,7 +35,7 @@ pub struct Game {
     countdown_value: i32,
     countdown_timer: f64,
 
-    
+    moving_period: f64,
 }
 
 impl Game {
@@ -55,6 +54,7 @@ impl Game {
             countdown_active: false,
             countdown_value: 3,
             countdown_timer: 0.0,
+            moving_period: 0.2,
         }
     }
 
@@ -134,7 +134,7 @@ impl Game {
         // Draw countdown if active
         if self.countdown_active {
             let countdown_text = format!("{}", self.countdown_value);
-            text::Text::new_color(	[1.0, 0.84, 0.0, 1.0], 50) // Large orange countdown
+            text::Text::new_color([1.0, 0.84, 0.0, 1.0], 50) // Large orange countdown
                 .draw(
                     &countdown_text,
                     glyphs,
@@ -178,7 +178,7 @@ impl Game {
         }
 
         if self.game_over {
-            //  game over overlay 
+            //  game over overlay
             draw_rectangle(
                 GAMEOVER_COLOR,
                 0,
@@ -197,7 +197,7 @@ impl Game {
                     glyphs,
                     &context.draw_state,
                     context.transform.trans(
-                        to_coordinate(self.width / 2) - 150.0, // Center horizontally 
+                        to_coordinate(self.width / 2) - 150.0, // Center horizontally
                         to_coordinate(self.height / 2),
                     ),
                     graphics,
@@ -241,7 +241,7 @@ impl Game {
             self.add_food();
         }
 
-        if self.waiting_time > MOVING_PERIOD {
+        if self.waiting_time > self.moving_period {
             self.update_snake(None);
         }
     }
@@ -253,6 +253,14 @@ impl Game {
             self.food_exists = false; // apple udha diya
             self.snake.restore_tail(); // snake grows
             self.score += 1; //increase the score
+
+            // Decrease moving_period to increase speed
+            self.moving_period *= 0.98; // Reduces by 2% each apple
+
+            // Setting a min to prevent it from becoming too fast
+            if self.moving_period < 0.035 {
+                self.moving_period = 0.035;
+            }
         }
     }
 
@@ -263,7 +271,7 @@ impl Game {
             return false; // kudh ko kat liya
         }
 
-        next_x > 0 && next_y > 0 && next_x < self.width - 1 && next_y < self.height - 1 //wall collision
+        next_x > 0 && next_y > 0 && next_x < self.width - 1 && next_y < self.height - 1 // Wall Collision
     }
 
     fn add_food(&mut self) {
@@ -301,5 +309,6 @@ impl Game {
         self.food_y = 4;
         self.game_over = false;
         self.score = 0;
+        self.moving_period = 0.2;
     }
 }
