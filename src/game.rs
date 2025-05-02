@@ -8,10 +8,13 @@ use rand::{Rng, thread_rng};
 use crate::draw::{draw_block, draw_rectangle};
 use crate::snake::{Direction, Snake};
 
+use rodio::{Decoder, OutputStreamHandle, Sink};
+use std::fs::File;
+use std::io::BufReader;
+
 const FOOD_COLOR: Color = [0.80, 0.00, 0.00, 1.0];
 const BORDER_COLOR: Color = [0.00, 0.00, 0.00, 1.0];
-const GAMEOVER_COLOR: Color = [0.6, 0.5, 0.8, 0.7]; // soft purple, 70% opacity
-
+const GAMEOVER_COLOR: Color = [0.6, 0.5, 0.8, 0.7]; // Purple
 
 const RESTART_TIME: f64 = 1.0; // 1sec restart time
 
@@ -36,6 +39,7 @@ pub struct Game {
     countdown_timer: f64,
 
     moving_period: f64,
+    audio_handle: OutputStreamHandle,
 }
 
 impl Game {
@@ -55,7 +59,16 @@ impl Game {
             countdown_value: 3,
             countdown_timer: 0.0,
             moving_period: 0.2,
+            audio_handle,
         }
+    }
+
+    fn play_sound(&self, filename: &str) {
+        let file = BufReader::new(File::open(filename).unwrap());
+        let source = Decoder::new(file).unwrap();
+        let sink = Sink::try_new(&self.audio_handle).unwrap();
+        sink.append(source);
+        sink.detach(); //playing independently
     }
 
     pub fn key_pressed(&mut self, key: Key) {
@@ -254,6 +267,8 @@ impl Game {
             self.snake.restore_tail(); // snake grows
             self.score += 1; //increase the score
 
+            self.play_sound("assets/eat.wav"); // Eat sound
+
             // Decrease moving_period to increase speed
             self.moving_period *= 0.98; // Reduces by 2% each apple
 
@@ -297,6 +312,7 @@ impl Game {
             self.check_eating();
         } else {
             self.game_over = true;
+            self.play_sound("assets/gameover.wav");
         }
         self.waiting_time = 0.0;
     }
