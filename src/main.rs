@@ -6,10 +6,6 @@ mod draw;
 mod game;
 mod snake;
 
-use std::fs::File;
-use std::io::BufReader;
-use rodio::{Decoder, OutputStream, Sink, Source};
-
 use piston_window::types::Color;
 use piston_window::*;
 
@@ -33,7 +29,7 @@ fn main() {
         .for_folder("assets")
         .unwrap();
 
-    let font_path = assets.join("Retro_text.otf");
+    let font_path = assets.join("Karma_Future.otf");
     let mut glyphs = game_window.load_font(font_path).unwrap(); // Text extraction & rendering
 
     let mut game = Game::new(width, height);
@@ -55,19 +51,4 @@ fn main() {
             game.update(arg.dt);
         });
     }
-
-    let (_stream, stream_handle) = OutputStream::try_default().unwrap(); //Audio Output
-
-    let eat_sound = BufReader::new(File::open("assets/eat.wav").unwrap());
-    let gameover_sound = BufReader::new(File::open("assets/gameover.wav").unwrap());
-    let bgm_file = BufReader::new(File::open("assets/in_game_background.mp3").unwrap());
-
-    // Created a sink for bgm and play it in a loop
-    let bgm_sink = Sink::try_new(&stream_handle).unwrap();
-    let bgm_source = Decoder::new(bgm_file).unwrap().repeat_infinite();
-    bgm_sink.append(bgm_source);
-    bgm_sink.set_volume(0.2); // Softer Bgm 
-
-    let mut game = Game::new(width, height, stream_handle.clone()); 
-
 }
