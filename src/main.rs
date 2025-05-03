@@ -29,7 +29,7 @@ fn main() {
         .for_folder("assets")
         .unwrap();
 
-    let font_path = assets.join("Karma_Future.otf");
+    let font_path = assets.join("Retro_text.otf");
     let mut glyphs = game_window.load_font(font_path).unwrap(); // Text extraction & rendering
 
     let mut game = Game::new(width, height);

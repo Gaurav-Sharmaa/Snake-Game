@@ -4,7 +4,8 @@ use std::collections::LinkedList; // Quickly add or remove elements from both en
 
 use crate::draw::draw_block;
 
-const SNAKE_COLOR: Color = [0.00, 0.80, 0.00, 1.00]; // 1.0 -> Full Opacity
+const SNAKE_HEAD_COLOR: Color = [0.00, 0.75, 0.00, 1.00];
+const SNAKE_BODY_COLOR: Color = [0.50, 0.90, 0.50, 1.00]; // Light green
 
 #[derive(Copy, Clone, PartialEq)] // PartialEq is used for == and != on types.
 pub enum Direction {
@@ -53,8 +54,15 @@ impl Snake {
     }
 
     pub fn draw(&self, context: &Context, graphics: &mut G2d) {
+        let mut is_head = true;
+
         for block in &self.body {
-            draw_block(SNAKE_COLOR, block.x, block.y, context, graphics);
+            if is_head {
+                draw_block(SNAKE_HEAD_COLOR, block.x, block.y, context, graphics);
+                is_head = false;
+            } else {
+                draw_block(SNAKE_BODY_COLOR, block.x, block.y, context, graphics);
+            }
         }
     }
 
