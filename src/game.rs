@@ -10,8 +10,7 @@ use crate::snake::{Direction, Snake};
 
 const FOOD_COLOR: Color = [0.80, 0.00, 0.00, 1.0];
 const BORDER_COLOR: Color = [0.00, 0.00, 0.00, 1.0];
-const GAMEOVER_COLOR: Color = [0.6, 0.5, 0.8, 0.7]; // soft purple, 70% opacity
-
+const GAMEOVER_COLOR: Color = [0.6, 0.5, 0.8, 0.7]; // soft purple
 
 const RESTART_TIME: f64 = 1.0; // 1sec restart time
 
@@ -85,11 +84,13 @@ impl Game {
             _ => None,
         };
 
-        if dir.unwrap() == self.snake.head_direction().opposite() {
-            return;
-        }
+        if let Some(direction) = dir {
+            if direction == self.snake.head_direction().opposite() {
+                return;
+            }
 
-        self.update_snake(dir);
+            self.update_snake(Some(direction));
+        } // if dir is None we ignore any keys
     }
 
     pub fn draw(&self, context: &Context, graphics: &mut G2d, glyphs: &mut Glyphs) {
