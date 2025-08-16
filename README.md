@@ -58,20 +58,6 @@ cargo run --release
 - `rand` - Random number generation for food placement
 - `find_folder` - Asset loading
 
-## 🤝 Contributing
-
-Contributions are welcome! Feel free to open issues or submit pull requests.
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🙏 Acknowledgments
-
-- Built with ❤️ using Rust
-- Inspired by the classic Snake game
-- Uses [Piston](http://www.piston.rs/) game engine
-
 ---
 
-Made with 🦀 by [Your Name] | [GitHub](https://github.com/Gaurav-Sharmaa)
+Made with 🦀 by | [Gaurav Sharma](https://github.com/Gaurav-Sharmaa)
