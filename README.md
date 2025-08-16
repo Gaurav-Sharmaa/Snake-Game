@@ -2,7 +2,6 @@
 
 A classic Snake game implementation in Rust using the Piston game engine. Control the snake, eat the food, and grow as long as possible without hitting the walls or yourself!
 
-![Snake Game Screenshot](assets/screenshot.png) *Screenshot coming soon*
 
 ## 🎮 Features
 
