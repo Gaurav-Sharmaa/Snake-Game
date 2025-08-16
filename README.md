@@ -60,4 +60,8 @@ cargo run --release
 
 ---
 
+<div align="center">
 Made with 🦀 by | [Gaurav Sharma](https://github.com/Gaurav-Sharmaa)
+</div>
+
+
