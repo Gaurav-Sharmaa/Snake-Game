@@ -57,7 +57,7 @@ impl Snake {
         let mut first = true;
 
         for block in &self.body {
-            if first{
+            if first {
                 // Draw the Side of the snake head
                 crate::draw::draw_snake_head(block.x, block.y, context, graphics);
                 first = false;
