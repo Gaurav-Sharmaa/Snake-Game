@@ -61,7 +61,7 @@ cargo run --release
 ---
 
 <div align="center">
-Made with 🦀 by | [Gaurav Sharma](https://github.com/Gaurav-Sharmaa)
+Made with 🦀 by | https://github.com/Gaurav-Sharmaa
 </div>
 
 
